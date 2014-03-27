@@ -1734,21 +1734,135 @@ text-align: inherit;
 <section>
     <section>
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>slide one</p>
-</div></section>
-    </section><section>
-    <section>
+<h1 id="chef-로-무엇을-할-수-있을까-what-can-i-do-with-the-chef">Chef 로 무엇을 할 수 있을까 (What can I do with the Chef)</h1>
+</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
 In&nbsp;[]:
 </div>
 <div class="input_area box-flex1">
-<div class="highlight"><pre><span class="n">slide</span> <span class="n">two</span>
+<div class="highlight"><pre><span class="n">sdfsdf</span>
 </pre></div>
 
 </div>
 </div>
+
+</div></section>
+    </section><section>
+    <section>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="들어가기">들어가기</h1>
+<ul>
+<li>발표 순서 (Agenda)
+<ul>
+<li>배포과정의 어려움이 무엇인가? (What is the problem of deployment process?)</li>
+<li>Chef 에 대한 소개 (introduction to chef)</li>
+<li>DevOps 팀은 Chef 를 어떻게 활용하고 있을까? (The way using chef in DevOps team)</li>
+<li>다음에 추가로 논의 할 주제 (next topic)</li>
+</ul></li>
+</ul>
+<p>(이 발표는 Andrii 를 따라 ipython notebook 을 사용했습니다. Thanks!)</p>
+</div></section>
+    </section><section>
+    <section>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="어떻게-배포를-하고-계신가요-how-can-you-deploy-your-appilcation">어떻게 배포를 하고 계신가요? (How can you deploy your appilcation?)</h1>
+<ul>
+<li>git으로 배포해요 (using git)</li>
+<li>스크립트를 만들어서 배포해요 (using my own script)</li>
+<li>AWS 이미지를 만들어서 배포해요 (using AWS ami images)</li>
+</ul>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="어떤-어려움이-있을까요">어떤 어려움이 있을까요?</h1>
+<ul>
+<li>현재 상태는 어떤가?
+<ul>
+<li>몇대의 서버가 동작하고 있지?</li>
+<li>각 서버에는 어떤 패키지가 깔려져 있지?</li>
+<li>각 서버의 사양은 어떻게 될까?</li>
+</ul></li>
+<li>configuration 을 어떻게 관리하는 것이 좋을까?
+<ul>
+<li>region 마다 접속해야 하는 DB 주소가 다르다면?</li>
+</ul></li>
+<li>개발환경과 실제 환경은 어떻게 구분하는 것이 좋을까?
+<ul>
+<li>개발환경은 debug 도 켜두어야 하고, DB 접속 주소도 달라야 하는데..</li>
+<li>실제 환경에 지금 테스트 중인 버젼이 사용되면 안될텐데...</li>
+</ul></li>
+<li>서버를 추가해야 해요!
+<ul>
+<li>동작 환경을 처음부터 설치해야 하나?</li>
+<li>이미지를 떠 두었다면, 이미지를 떠둔 이후 부터의 변경 사항들을 모두 반영해야 할텐데.</li>
+</ul></li>
+<li>올인원으로 설치해 주세요!
+<ul>
+<li>어떤 환경에서는 DB, 웹서버를 같이 설치해야 하고, 어떠 곳에서는 따로 설치가 필요해요.</li>
+</ul></li>
+</ul>
+</div></section>
+    </section><section>
+    <section>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="chef">Chef?</h1>
+<ul>
+<li>Programming your IT infrastructure</li>
+</ul>
+</div></section>
+    </section><section>
+    <section>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="why-chef">Why Chef?</h1>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>next slide</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[6]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight"><pre><span class="o">!</span>knife status <span class="s2">&quot;region:SD04&quot;</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt"></div>
+<div class="box-flex1 output_subarea output_stream output_stdout">
+<pre>
+<span class="ansired">696 hours</span> ago, sdk-mongodb-a014-007af705-sd04, ec2-54-238-176-188.ap-northeast-1.compute.amazonaws.com, 54.238.176.188, ubuntu 12.04.
+<span class="ansired">696 hours</span> ago, sdk-mongodb-a014-c14a3fc4-sd04, ec2-54-238-179-45.ap-northeast-1.compute.amazonaws.com, 54.238.179.45, ubuntu 12.04.
+<span class="ansired">696 hours</span> ago, sdk-mongodb-a014-11fae514-sd04, ec2-54-238-178-6.ap-northeast-1.compute.amazonaws.com, 54.238.178.6, ubuntu 12.04.
+<span class="ansired">673 hours</span> ago, sdk-featproxy-a014-ee6bf7e9-sd04, ec2-54-199-197-197.ap-northeast-1.compute.amazonaws.com, 54.199.197.197, ubuntu 12.04.
+<span class="ansired">313 hours</span> ago, sdk-ira-a014-b8feeabe-sd04, ec2-54-248-251-163.ap-northeast-1.compute.amazonaws.com, 54.248.251.163, ubuntu 12.04.
+<span class="ansired">191 hours</span> ago, sdk-extractor-a014-df2bcedb-sd04, ec2-54-238-191-122.ap-northeast-1.compute.amazonaws.com, 54.238.191.122, ubuntu 12.04.
+<span class="ansired">190 hours</span> ago, sdk-rest-a014-d82bcedc-sd04, ec2-54-238-222-62.ap-northeast-1.compute.amazonaws.com, 54.238.222.62, ubuntu 12.04.
+<span class="ansired">165 hours</span> ago, sdk-scribe-a014-447af741-sd04, ec2-54-249-124-145.ap-northeast-1.compute.amazonaws.com, 54.249.124.145, ubuntu 12.04.
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></section>
+    </section><section>
+    <section>
+<div class="text_cell_render border-box-sizing rendered_html">
+
+</div></section>
+    </section><section>
+    <section>
+<div class="text_cell_render border-box-sizing rendered_html">
 
 </div></section>
     </section>
